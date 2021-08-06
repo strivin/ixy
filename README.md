@@ -1,5 +1,7 @@
 # ixy - a userspace network driver in 1000 lines of code
 
+This project had forked from ixy. And i ported it to e1000(82540EM) which I can use and verify on qemu or vmware workstation.
+
 ixy is a simple userspace packet processing framework.
 It takes exclusive control of a network adapter and implements the *whole driver* in userspace.
 Its architecture is similar to [DPDK](http://dpdk.org/) and [Snabb](http://snabb.co) and completely different from (seemingly similar) frameworks such as netmap, pfq, pf_ring, or XDP (all of which rely on kernel components).
