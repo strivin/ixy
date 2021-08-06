@@ -24,6 +24,22 @@ typedef struct pcaprec_hdr_s {
 	uint32_t orig_len;      /* actual length of packet */
 } pcaprec_hdr_t;
 
+
+static void hex_dump_8bit(unsigned char *buf, size_t len) 
+{
+	size_t i;
+
+	printf("\npacket info:");
+	for (i = 0; i < len; i++) {
+		if ((i % 16) == 0) {
+			printf("\n");
+			printf("%p: ", buf + i);
+		}
+		printf(" %02x", *(buf + i) & 0xff);
+	}
+	printf("\n");
+}
+
 int main(int argc, char* argv[]) {
 	if (argc < 3 || argc > 4) {
 		printf("Usage: %s <pci bus id> <output file> [n packets]\n", argv[0]);
@@ -73,6 +89,7 @@ int main(int argc, char* argv[]) {
 
 			fwrite(bufs[i]->data, bufs[i]->size, 1, pcap);
 
+			hex_dump_8bit(bufs[i]->data, bufs[i]->size);
 			pkt_buf_free(bufs[i]);
 			// n_packets == -1 indicates unbounded capture
 			if (n_packets > 0) {

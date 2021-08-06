@@ -23,6 +23,6 @@ struct ixy_device* ixy_init(const char* pci_addr, uint16_t rx_queues, uint16_t t
 		return virtio_init(pci_addr, rx_queues, tx_queues);
 	} else {
 		// Our best guess is to try ixgbe
-		return ixgbe_init(pci_addr, rx_queues, tx_queues, interrupt_timeout);
+		return e1000_init(pci_addr, rx_queues, tx_queues, interrupt_timeout);
 	}
 }

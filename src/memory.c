@@ -72,7 +72,8 @@ struct dma_memory memory_allocate_dma(size_t size, bool require_contiguous) {
 		// temporary file, will be deleted to prevent leaks of persistent pages
 		int fd = check_err(open(path, O_CREAT | O_RDWR, S_IRWXU), "open hugetlbfs file, check that /mnt/huge is mounted");
 		check_err(ftruncate(fd, (off_t) size), "allocate huge page memory, check hugetlbfs configuration");
-		void* virt_addr = (void*) check_err(mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_HUGETLB, fd, 0), "mmap hugepage");
+		//void* virt_addr = (void*) check_err(mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_HUGETLB, fd, 0), "mmap hugepage");
+		void* virt_addr = (void*) check_err(mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0), "mmap hugepage");
 		// never swap out DMA memory
 		check_err(mlock(virt_addr, size), "disable swap for DMA memory");
 		// don't keep it around in the hugetlbfs

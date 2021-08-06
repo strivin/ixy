@@ -30,10 +30,14 @@ struct __attribute__((__packed__)) mac_address {
  * @member:	the name of the member within the struct.
  *
  */
-#define container_of(ptr, type, member) ({\
-	const typeof(((type*)0)->member)* __mptr = (ptr);\
-	(type*)((char*)__mptr - offsetof(type, member));\
-})
+
+#ifndef typeof
+#define typeof __typeof__
+#endif
+
+#define container_of(ptr, type, member) ({ \
+	const typeof( ((type *)0)->member ) *__mptr = (ptr); \
+	(type *)( (char *)__mptr - offsetof(type, member) );})
 
 struct ixy_device {
 	const char* pci_addr;

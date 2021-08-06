@@ -6,13 +6,13 @@
 #include "driver/device.h"
 
 // number of packets sent simultaneously to our driver
-static const uint32_t BATCH_SIZE = 64;
+static const uint32_t BATCH_SIZE = 1;
 
 // excluding CRC (offloaded by default)
 #define PKT_SIZE 60
 
 static const uint8_t pkt_data[] = {
-	0x01, 0x02, 0x03, 0x04, 0x05, 0x06, // dst MAC
+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, // dst MAC
 	0x10, 0x10, 0x10, 0x10, 0x10, 0x10, // src MAC
 	0x08, 0x00,                         // ether type: IPv4
 	0x45, 0x00,                         // Version, IHL, TOS
@@ -21,7 +21,7 @@ static const uint8_t pkt_data[] = {
 	0x00, 0x00, 0x00, 0x00,             // id, flags, fragmentation
 	0x40, 0x11, 0x00, 0x00,             // TTL (64), protocol (UDP), checksum
 	0x0A, 0x00, 0x00, 0x01,             // src ip (10.0.0.1)
-	0x0A, 0x00, 0x00, 0x02,             // dst ip (10.0.0.2)
+	0xC0, 0xA8, 0x25, 0x01,             // dst ip (10.0.0.2)
 	0x00, 0x2A, 0x05, 0x39,             // src and dst ports (42 -> 1337)
 	(PKT_SIZE - 20 - 14) >> 8,          // udp len excluding ip & ethernet, high byte
 	(PKT_SIZE - 20 - 14) & 0xFF,        // udp len exlucding ip & ethernet, low byte
